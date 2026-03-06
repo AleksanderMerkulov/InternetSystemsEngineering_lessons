@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Статистика по зданиям</title>
+</head>
+<body>
+
+<h1>Статистика по типам здания</h1>
+
+{% from "_macros_render_table.html" import render_table %}
+
+{{ render_table(type_buildings_head, type_buildings_entries) }}
+
+</body>
+</html>

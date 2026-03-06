@@ -9,10 +9,12 @@
 {% include "header.html" %}
 
 <div class="container">
-    <h1>Лабораторная работа 1</h1>
-    <p>
-        Создание таблиц на основе представленной базе данных
-    </p>
+    <h1>
+        {{ title }}
+    </h1>
+    {% from "_macros_render_table.html" import render_table %}
+
+    {{ render_table(entries_head, entries) }}
 </div>
 
 </body>
