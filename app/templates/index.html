@@ -1,19 +1,9 @@
-<!doctype html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
-    <title>{{ title }}</title>
-</head>
-<body>
-{% include "header.html" %}
+{% extends "base.html" %}
 
-<div class="container">
-    <h1>Лабораторная работа 1</h1>
-    <p>
-        Создание таблиц на основе представленной базе данных
-    </p>
-</div>
+{% block body %}
 
-</body>
-</html>
+<h1>Практическая работа 1</h1>
+<p>
+    Создание таблиц, фильтра и выборке по выбранной базе данных.
+</p>
+{% endblock %}

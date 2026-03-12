@@ -3,9 +3,8 @@ from .config import DevelopmentConfig
 
 # Импортируем маршруты
 from app.views import main
-from .crud import create, read, update, delete
 from .extensions import db
-from .models import Country
+from .models import *
 from .query import *
 from .upload_db import *
 
@@ -20,15 +19,10 @@ def create_app():
     # создание базы данных на основе указанных в импорте моделей
     # если модели не импортированы создается пустая база данных
     app.app_context().push()
-    # read()
-    # delete()
 
-    # country_upload()
-    # city_upload()
-    # buildings_upload()
+    # инициализация базы данных и загрузка всех данных
+    # init_db()
 
-    # query()
-    # query_sorted()
 
     # Регистрация Blueprint-ов
     app.register_blueprint(main)

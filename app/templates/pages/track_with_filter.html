@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block body %}
+<form action="" method="post">
+
+    <div>
+<!--   Вызываю шаблон селекта, убирая логику рендера внутри вызова     -->
+        {% from "_macros_render.html" import render_select %}
+        {{ render_select(mediatypes, selected_mediatype, "Тип медиа", "mediatype") }}
+
+        <button class="btn btn-success">Поиск</button>
+    </div>
+
+    {% from "_macros_render.html" import render_table %}
+    {{ render_table(entries_head, entries) }}
+
+</form>
+{% endblock %}

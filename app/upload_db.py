@@ -1,30 +1,70 @@
-from .models import Country, City, Building
+from . import MediaType
+from .models import *
 from .extensions import db
 import csv
 
-def country_upload():
-    with open("app/data/country.csv") as f:
+
+def mediatype_upload():
+    with open("app/data/MediaType.csv") as f:
         reader = csv.reader(f)
         next(reader)
         for item in reader:
-            new_entry = Country(item[0])
+            new_entry = MediaType(item[1])
             db.session.add(new_entry)
         db.session.commit()
 
-def city_upload():
-    with open("app/data/city.csv") as f:
+
+def genre_upload():
+    with open("app/data/Genre.csv") as f:
         reader = csv.reader(f)
         next(reader)
         for item in reader:
-            new_entry = City(item[0], item[1])
+            new_entry = Genre(item[1])
             db.session.add(new_entry)
         db.session.commit()
 
-def buildings_upload():
-    with open("app/data/building.csv") as f:
+
+def artist_upload():
+    with open("app/data/Artist.csv") as f:
         reader = csv.reader(f)
         next(reader)
         for item in reader:
-            new_entry = Building(item[0], item[1], item[2], item[3], item[4])
+            new_entry = Artist(item[1])
             db.session.add(new_entry)
         db.session.commit()
+
+
+def album_upload():
+    with open("app/data/Album.csv") as f:
+        reader = csv.reader(f)
+        next(reader)
+        for item in reader:
+            new_entry = Album(item[1], item[2])
+            db.session.add(new_entry)
+        db.session.commit()
+
+
+def track_upload():
+    with open("app/data/Track.csv") as f:
+        reader = csv.reader(f)
+        next(reader)
+        for item in reader:
+            new_entry = Track(item[1], item[2], item[3], item[4],
+                              item[5], item[6], item[7], item[8])
+            db.session.add(new_entry)
+        db.session.commit()
+
+
+def init_db():
+    """
+    Функция-агрегатор, которая пересобирает БД
+    :return: None
+    """
+    db.drop_all()
+    db.create_all()
+    mediatype_upload()
+    genre_upload()
+    artist_upload()
+    album_upload()
+    track_upload()
+    print('[ok] Database Init Complete')

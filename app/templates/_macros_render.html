@@ -23,3 +23,14 @@
 </table>
 
 {% endmacro %}
+
+{% macro render_select(entries, selected, title, id) %}
+<label for="{{ id }}">{{ title }}</label>
+<select name="{{ id }}" id="{{ id }}">
+    {% for entry in entries %}
+    <option value="{{ entry.id }}"
+    {% if selected == entry.id|string  %} selected {% endif %}
+    >{{ entry.name }}</option>
+    {% endfor %}
+</select>
+{% endmacro %}

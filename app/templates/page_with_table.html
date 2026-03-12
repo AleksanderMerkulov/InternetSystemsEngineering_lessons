@@ -1,21 +1,15 @@
-<!doctype html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
-    <title>{{ title }}</title>
-</head>
-<body>
-{% include "header.html" %}
+{% extends 'base.html' %}
 
-<div class="container">
+
+{% block body %}
     <h1>
         {{ title }}
     </h1>
-    {% from "_macros_render_table.html" import render_table %}
+    {% if subtitle %} <h2>{{ subtitle }}</h2> {% endif %}
+     {% if query %} <h3>Запрос: {{ query }}</h3> {% endif %}
+
+    {% from "_macros_render.html" import render_table %}
 
     {{ render_table(entries_head, entries) }}
-</div>
 
-</body>
-</html>
+{% endblock %}

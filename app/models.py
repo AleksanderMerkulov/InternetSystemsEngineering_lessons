@@ -1,64 +1,83 @@
 from .extensions import db
 
 
-class Country(db.Model):
-    __tablename__ = 'country'  # задавать необязательно
+class Album(db.Model):
+    __tablename__ = 'album'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column('Страна', db.String(100), nullable=False)
-    cities = db.relationship('City', cascade='all, delete')
+    title = db.Column(db.String(200), nullable=False)
+    artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'))
 
-    def __init__(self, name):
-        self.name = name
+    # back_populates='artist' соответствует Artist.albums
+    artist = db.relationship('Artist', back_populates='albums')
+    # back_populates='album' соответствует Track.album
+    tracks = db.relationship('Track', back_populates='album', cascade='all, delete-orphan')
 
-    def __repr__(self):
-        return f'\nid: {self.id}, Страна: {self.name}'
-
-
-class TypeBuilding(db.Model):
-    __tablename__ = 'type_building'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column('Тип',db.String(50), nullable=False)
-    buildings = db.relationship('Building', back_populates='type_building')
-
-    def __init__(self, name):
-        self.name = name
-
-    def __repr__(self):
-        return f'\nid: {self.id}, Тип: {self.name}'
-
-
-class City(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column('Город', db.String(100),)
-    country_id = db.Column(db.Integer, db.ForeignKey('country.id'))
-    country = db.relationship('Country', back_populates='cities', cascade='all, delete')
-    buildings = db.relationship('Building', back_populates='city', cascade='all, delete')
-
-    def __init__(self, name, country_id):
-        self.name = name
-        self.country_id = country_id
-
-    def __repr__(self):
-        return f'\nid: {self.id}, Город: {self.name}'
-
-
-class Building(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column('Название', db.String(200))
-    type_building_id = db.Column(db.Integer, db.ForeignKey('type_building.id'))
-    city_id = db.Column(db.Integer, db.ForeignKey('city.id'))
-    year = db.Column(db.Integer)
-    height = db.Column(db.Integer)
-    type_building = db.relationship("TypeBuilding", back_populates="buildings")
-    city = db.relationship("City", back_populates="buildings")
-
-    def __init__(self, title, type_building_id, city_id, year, height):
+    def __init__(self, title, artist_id):
         self.title = title
-        self.type_building_id = type_building_id
-        self.city_id = city_id
-        self.year = year
-        self.height = height
+        self.artist_id = artist_id
 
     def __repr__(self):
-        return f'\nid: {self.id}, Название: {self.title}, Город: {self.city_id}, тип строения: {self.type_building_id}, год: {self.year}'
+        return f'\nid: {self.id}, Название: {self.title}'
 
+
+class Artist(db.Model):
+    __tablename__ = 'artist'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    # cascade='all, delete-orphan' для полной очистки
+    albums = db.relationship('Album', back_populates='artist', cascade='all, delete-orphan')
+
+    def __init__(self, name):
+        self.name = name
+
+
+class Track(db.Model):
+    __tablename__ = 'track'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    album_id = db.Column(db.Integer, db.ForeignKey('album.id'))
+    mediatype_id = db.Column(db.Integer, db.ForeignKey('media_type.id'))
+    genre_id = db.Column(db.Integer, db.ForeignKey('genre.id'))
+    composer = db.Column(db.String(100), nullable=False)
+    milliseconds = db.Column(db.Integer)
+    bytes = db.Column(db.Integer)
+    unit_price = db.Column(db.Numeric(10, 2))
+
+    # back_populates='tracks'
+    genre = db.relationship('Genre', back_populates='tracks')
+    # back_populates='tracks' соответствует Album.tracks
+    album = db.relationship('Album', back_populates='tracks')
+    # back_populates='tracks' соответствует MediaType.tracks
+    mediatype = db.relationship('MediaType', back_populates='tracks')
+
+    def __init__(self, name, album_id, mediatype_id, genre_id, composer, milliseconds, bytes, unit_price):
+        self.name = name
+        self.album_id = album_id
+        self.mediatype_id = mediatype_id
+        self.genre_id = genre_id
+        self.composer = composer
+        self.milliseconds = milliseconds
+        self.bytes = bytes
+        self.unit_price = unit_price
+
+
+class Genre(db.Model):
+    __tablename__ = 'genre'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    # tracks (множественное число) для консистентности
+    tracks = db.relationship('Track', back_populates='genre')
+
+    def __init__(self, name):
+        self.name = name
+
+
+class MediaType(db.Model):
+    __tablename__ = 'media_type'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    # обратная связь с Track
+    tracks = db.relationship('Track', back_populates='mediatype')
+
+    def __init__(self, name):  # ✅ убран id из параметров
+        self.name = name
