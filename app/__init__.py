@@ -21,7 +21,7 @@ def create_app():
     app.app_context().push()
 
     # инициализация базы данных и загрузка всех данных
-    # init_db()
+    init_db()
 
 
     # Регистрация Blueprint-ов

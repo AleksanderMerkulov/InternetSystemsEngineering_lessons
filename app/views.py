@@ -50,10 +50,10 @@ def track():
             Genre.name.label('Жанр')
         )
         .select_from(Track)
-        .join(MediaType, Track.mediatype_id == MediaType.id)
-        .join(Album, Track.album_id == Album.id)
-        .join(Genre, Track.genre_id == Genre.id)
-        .join(Artist, Album.artist_id == Artist.id)
+        .join(MediaType)
+        .join(Album)
+        .join(Genre)
+        .join(Artist)
         .order_by(Album.title)
     )
     entries_heads = tracks.statement.columns.keys()
@@ -208,12 +208,47 @@ def artist_query_5():
         .order_by(func.count(tracks_with_genres_cte.c.track_id))
     )
 
+    top_genre = (
+        db.session.query(
+            Genre.id.label('genre_id'),
+            Genre.name.label('genre_name'),
+            func.count(Track.id).label('track_count'),
+        )
+        .select_from(Genre)
+        .join(Track)
+        .group_by(Genre.id)
+        .order_by(func.count(Track.id).desc())
+        .limit(1)
+        .cte('top_genre')
+    )
+
+    artists_in_top_genre = (
+        db.session.query(
+            Artist.id,
+            Artist.name.label('Артист'),
+            top_genre.c.genre_name,
+            func.count(Track.id).label('Кол-во треков')
+        )
+        .select_from(Artist)
+        .join(Album, Artist.albums)
+        .join(Track, Album.tracks)
+        .join(top_genre, Track.genre_id == top_genre.c.genre_id)
+        .group_by(Artist.id, top_genre.c.genre_name)
+        .distinct()
+    )
+
+
+
+    # вывести артистов которые исполняют песни в самом попурарном жанре - самый популярный жарн где треков
+
     return render_template('page_with_table.html',
                            title=title,
                            subtitle=subtitle,
-                           entries_head=artist_entries.statement.columns.keys(),
-                           entries=artist_entries.all(),
-                           query=artist_entries
+                           # entries_head=artist_entries.statement.columns.keys(),
+                           # entries=artist_entries.all(),
+                           entries_head=artists_in_top_genre.statement.columns.keys(),
+                           entries=artists_in_top_genre.all(),
+                           query=artists_in_top_genre
                            )
 
 # @main.route('/type-building-stats')
