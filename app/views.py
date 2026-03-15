@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
-from sqlalchemy import func, text
+from sqlalchemy import func
 
-from .models import *
+from app.models import *
 from .extensions import db
 
 main = Blueprint('main', __name__)
@@ -9,7 +9,7 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def index():
     title = 'Главная страница'
-    type_building_entries = (
+    building = (
         db.session.query(
             TypeBuilding.id,
             TypeBuilding.name.label('Название'),

@@ -1,4 +1,7 @@
-from .models import Country, City, Building
+from app.models.country import *
+from app.models.city import *
+from app.models.building import *
+from app.models.type_building import *
 from .extensions import db
 import csv
 
