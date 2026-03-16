@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.models.building import Building
-from app.extensions import db
+from app.extensions import db, auth
 
 building_bp = Blueprint('building', __name__)
 
@@ -12,6 +12,7 @@ def get_buildings():
         "success": True,
         "buildings": str(buildings)
     }), 200
+
 
 @building_bp.route('/<int:id>/', methods=['GET'])
 def get_one_building(id):
@@ -26,7 +27,9 @@ def get_one_building(id):
         "building": str(building)
     }), 200
 
+
 @building_bp.route('/', methods=['POST'])
+@auth.login_required()
 def set_buildings():
     try:
         validated_data = request.get_json()
@@ -52,7 +55,9 @@ def set_buildings():
             "errors": str(e)
         }), 200
 
+
 @building_bp.route('/<int:id>/', methods=['PUT'])
+@auth.login_required()
 def put_building(id):
     try:
         print(request)
@@ -78,6 +83,7 @@ def put_building(id):
 
 
 @building_bp.route('/<int:id>/', methods=['DELETE'])
+@auth.login_required()
 def delete_building(id):
     try:
         building = db.session.query(Building).get(id)
