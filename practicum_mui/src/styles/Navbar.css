@@ -1,0 +1,7 @@
+/*.selected { !* Increase the specificity *!*/
+/*  background-color: blue;*/
+/*}*/
+
+.menuitem:hover { /* Increase the specificity */
+  background-color: #b8b8ff;
+}
