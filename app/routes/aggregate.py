@@ -1,43 +1,36 @@
 from flask import Blueprint, jsonify
 from sqlalchemy import func, desc
-from app.schemas.aggregate import all_buildings_schema, all_stats_schema
-from app.models.aggregate import get_all_buildings, get_stats_by_build_type, get_stats_by_country, get_stats_by_year
+from app.schemas.aggregate import all_time_stats_schema
+from app.models.aggregate import get_time_info, get_time_info_by_artist, get_time_info_by_album
 
 aggregate_bp = Blueprint('aggregate', __name__)
 
 
-@aggregate_bp.route('/all/', methods=['GET'])
-def all_buildings():
-    results = get_all_buildings()
+@aggregate_bp.route('/genre/', methods=['GET'])
+def time_info_by_genre():
+    results = get_time_info()
     print(results)
     return jsonify({
         "success": True,
-        "all_buildings": all_buildings_schema.dump(results)
+        "all_tracks": all_time_stats_schema.dump(results)
     }), 200
 
-
-@aggregate_bp.route('/type-building/', methods=['GET'])
-def all_stats_by_type():
-    results = get_stats_by_build_type()
+@aggregate_bp.route('/artist/', methods=['GET'])
+def time_info_by_artist():
+    results = get_time_info_by_artist()
+    print(results)
     return jsonify({
         "success": True,
-        "stats": all_stats_schema.dump(results)
+        "artists": all_time_stats_schema.dump(results)
     }), 200
 
 
-@aggregate_bp.route('/country/', methods=['GET'])
-def all_stats_country():
-    results = get_stats_by_country()
+@aggregate_bp.route('/album/', methods=['GET'])
+def time_info_by_album():
+    results = get_time_info_by_album()
+    print(results)
     return jsonify({
         "success": True,
-        "stats": all_stats_schema.dump(results)
+        "albums": all_time_stats_schema.dump(results)
     }), 200
 
-
-@aggregate_bp.route('/year/', methods=['GET'])
-def all_stats_year():
-    results = get_stats_by_year()
-    return jsonify({
-        "success": True,
-        "stats": all_stats_schema.dump(results)
-    }), 200

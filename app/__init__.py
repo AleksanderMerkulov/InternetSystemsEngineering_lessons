@@ -2,7 +2,7 @@ from flask import Flask
 from .extensions import db
 from .config import DevelopmentConfig
 # Импортируем маршруты
-from .routes import title, track
+from .routes import title, track, aggregate
 
 
 def create_app():
@@ -15,6 +15,6 @@ def create_app():
     # Регистрация Blueprint-ов
     app.register_blueprint(title.bp_title, url_prefix="/api/v1/title")
     app.register_blueprint(track.track_bp, url_prefix="/api/v1/track")
-    # app.register_blueprint(aggregate.aggregate_bp, url_prefix="/api/v1/aggregate")
+    app.register_blueprint(aggregate.aggregate_bp, url_prefix="/api/v1/aggregate")
 
     return app

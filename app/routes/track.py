@@ -3,19 +3,26 @@ from marshmallow import ValidationError
 from werkzeug.exceptions import NotFound
 
 from app.models.album import Album
+from app.models.genre import Genre
+from app.models.media_type import MediaType
 from app.models.track import Track
 from app.extensions import db, auth
-from app.schemas.track import tracks_schema, track_schema
+from app.schemas.track import tracks_schema, track_schema, tracks_no_detail_schema
 
 track_bp = Blueprint('track', __name__)
 
-
+""" 
+==================
+реализация CRUD
+==================
+"""
 @track_bp.route('/', methods=['GET'])
 def get_tracks():
     tracks = Track.query.all()
     return jsonify({
         "success": True,
-        "tracks": tracks_schema.dump(tracks)
+        # "tracks": tracks_schema.dump(tracks)
+        "tracks": tracks_no_detail_schema.dump(tracks)
     }), 200
 
 @track_bp.route('/', methods=['POST'])
@@ -104,3 +111,48 @@ def delete_building(id):
             "errors": str(e)
         }), 500
 
+
+""" 
+==================
+реализация выборки данных из основной таблицы в виде вложенного JSON
+==================
+"""
+
+@track_bp.route('/<int:id>/', methods=['GET'])
+def get_track(id):
+    track = Track.query.filter(Track.id == id).first()
+    return jsonify({
+        "success": True,
+        "track": track_schema.dump(track)
+        # "tracks": tracks_no_detail_schema.dump(tracks)
+    }), 200
+
+@track_bp.route('filter_by_genre/<int:genre_id>/', methods=['GET'])
+def track_by_genre(genre_id):
+    try:
+        tracks = (
+            db.session.query(Track)
+            .select_from(Track)
+            .join(Genre)
+            .filter(Genre.id == genre_id)
+            .all()
+        )
+        found_tracks = tracks_schema.dump(tracks)
+
+        print('[ok]')
+        return jsonify({
+            "success": True,
+            "tracks": found_tracks,
+        }), 200
+    except ValidationError as err:
+        db.session.rollback()
+        return jsonify({
+            "success": False,
+            "errors": err.messages
+        }, 400)
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            "success": False,
+            "errors": str(e)
+        }, 500)

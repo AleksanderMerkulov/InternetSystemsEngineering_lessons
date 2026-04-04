@@ -5,5 +5,5 @@ bp_title = Blueprint('title', __name__)
 def get_title():
  return jsonify({
   "success": True,
-  "title": "Самые высокие здания и сооружения"
+  "title": "API по музыке"
  }), 200

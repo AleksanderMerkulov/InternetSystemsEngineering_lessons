@@ -24,3 +24,22 @@ class TrackSchema(SQLAlchemyAutoSchema):
 
 track_schema = TrackSchema()
 tracks_schema = TrackSchema(many=True)
+
+
+class TrackNoDetailSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Track
+        load_instance = True
+        sqla_session = db.session
+
+    album_id = ma.auto_field()
+    mediatype_id = ma.auto_field()
+    genre_id = ma.auto_field()
+
+
+    # album = ma.Nested(AlbumSchema())
+    # mediatype = ma.Nested(MediaTypeSchema())
+    # genre = ma.Nested(GenreSchema())
+
+track_no_detail_schema = TrackNoDetailSchema()
+tracks_no_detail_schema = TrackNoDetailSchema(many=True)
