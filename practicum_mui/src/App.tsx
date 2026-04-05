@@ -1,14 +1,16 @@
-import Navbar from "./components/navbar";
-import Gallery from "./components/Gallery";
-import Content from "./components/Content";
+import Navbar from "./components/Navbar";
+import Gallery from "./main/components/Gallery";
+import Content from "./main/components/Content";
+import List from "./list/List";
 
 function App() {
     return (
-        <div>
-            <Navbar active={'1'}/>
-            <Gallery/>
-            <Content/>
-        </div>
+        // <div>
+        //     <Navbar active={'1'}/>
+        //     <Gallery/>
+        //     <Content/>
+        // </div>
+        <List/>
     );
 }
 

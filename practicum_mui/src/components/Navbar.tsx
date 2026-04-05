@@ -2,11 +2,12 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import {styled} from '@mui/material/styles';
 import Container from '@mui/material/Container';
-import {Box, Button, Drawer, IconButton, MenuItem, Typography} from "@mui/material";
+import {Box, Button, Drawer, IconButton, Link, MenuItem, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import React from "react";
 import '../styles/Navbar.css'
+import {Link as RouterLink} from "react-router";
 
 const StyledToolbar = styled(Toolbar)(({theme}) => ({
     display: 'flex',
@@ -45,9 +46,9 @@ function Navbar({active}: ComponentProps) {
     };
 
     const menuItems = [
-        { id: '1', label: 'Главная' },
-        { id: '2', label: 'Список зданий' },
-        { id: '3', label: 'Контакты' },
+        { id: '1', label: 'Главная', link: '/' },
+        { id: '2', label: 'Список зданий', link: '/list' },
+        { id: '3', label: 'Диаграммы', link:'/chart' },
     ];
 
     return (
@@ -65,15 +66,20 @@ function Navbar({active}: ComponentProps) {
                         Самые высокие здания и сооружения
                     </Typography>
                     <Box sx={{display: {xs: 'none', md: 'flex'}}}>
+
+
                         {menuItems.map((item) => (
-                            <Button
-                                key={item.id}
-                                color="info"
-                                size="medium"
-                                variant={active === item.id ? 'contained' : 'text'}
-                            >
-                                {item.label}
-                            </Button>
+
+                            <Link to={item.link} component={RouterLink}>
+                                <Button
+                                    key={item.id}
+                                    color="info"
+                                    size="medium"
+                                    variant={active === item.id ? 'contained' : 'text'}
+                                >
+                                    {item.label}
+                                </Button>
+                            </Link>
                         ))}
                     </Box>
                     <Box sx={{display: {xs: 'flex', md: 'none'}}}>
@@ -97,13 +103,15 @@ function Navbar({active}: ComponentProps) {
                                     </IconButton>
                                 </Box>
                                 {menuItems.map((item) => (
-                                    <StyledMenuItem
-                                        key={item.id}
-                                        selected={active == item.id}
-                                        onClick={toggleDrawer(false)}
-                                    >
-                                        {item.label}
-                                    </StyledMenuItem>
+                                    <Link to={item.link} component={RouterLink}>
+                                        <StyledMenuItem
+                                            key={item.id}
+                                            selected={active === item.id}
+                                            onClick={toggleDrawer(false)}
+                                        >
+                                            {item.label}
+                                        </StyledMenuItem>
+                                    </Link>
                                 ))}
                             </Box>
                         </Drawer>
