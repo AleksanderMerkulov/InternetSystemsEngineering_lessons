@@ -10,6 +10,7 @@ import Card from "@mui/material/Card";
 import {Breadcrumbs, Typography, Link} from "@mui/material";
 import Navbar from "../components/Navbar";
 import {styled} from "@mui/material/styles";
+import Footer from "../components/Footer";
 
 
 const StyledCardContent = styled(CardContent)(({theme}) => ({
@@ -61,6 +62,7 @@ function Building() {
                     </Box>
                 </Card>
             </Container>
+            <Footer/>
         </>
     );
 }

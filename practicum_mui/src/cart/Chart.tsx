@@ -5,6 +5,7 @@ import Container from "@mui/material/Container";
 import React from "react";
 import Navbar from "../components/Navbar";
 import GroupChart from "./components/GroupChart";
+import Footer from "../components/Footer";
 
 function Chart() {
 
@@ -31,29 +32,32 @@ function Chart() {
 
 
     return (
-        <Container maxWidth="lg">
-            <Navbar active={"3"} />
+        <>
+            <Container maxWidth="lg">
+                <Navbar active={"3"}/>
 
-            <Box sx={{width: "200px", m: "auto", pt: '20px'}}>
-                <FormControl fullWidth>
-                    <Box sx={{marginLeft: 'auto', marginRight: 'auto', width: 'fit-content'}}>
-                        <InputLabel>Группировка по</InputLabel>
-                        <Select
-                            label="Группировать по"
-                            id="demo-simple-select"
-                            value={group}
-                            onChange={handleChange}
-                            variant={'outlined'}>
-                            <MenuItem value={'countries'}>Странам</MenuItem>
-                            <MenuItem value={'years'}>Годам</MenuItem>
-                            <MenuItem value={'types'}>Типу</MenuItem>
-                        </Select>
-                    </Box>
-                </FormControl>
-            </Box>
-            <GroupChart data={data}/>
-            <GroupGrid data={data}/>
-        </Container>
+                <Box sx={{width: "200px", m: "auto", pt: '20px'}}>
+                    <FormControl fullWidth>
+                        <Box sx={{marginLeft: 'auto', marginRight: 'auto', width: 'fit-content'}}>
+                            <InputLabel>Группировка по</InputLabel>
+                            <Select
+                                label="Группировать по"
+                                id="demo-simple-select"
+                                value={group}
+                                onChange={handleChange}
+                                variant={'outlined'}>
+                                <MenuItem value={'countries'}>Странам</MenuItem>
+                                <MenuItem value={'years'}>Годам</MenuItem>
+                                <MenuItem value={'types'}>Типу</MenuItem>
+                            </Select>
+                        </Box>
+                    </FormControl>
+                </Box>
+                <GroupChart data={data}/>
+                <GroupGrid data={data}/>
+            </Container>
+            <Footer/>
+        </>
     )
 }
 
