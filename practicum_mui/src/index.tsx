@@ -7,12 +7,15 @@ import reportWebVitals from './reportWebVitals';
 import List from "./list/List";
 import Main from "./main/Main";
 import Chart from "./cart/Chart";
+import Testing from "./testing/Testing";
 
 import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router";
 import Building from "./building/Building";
+import {Provider} from "react-redux";
+import store from "./store";
 
 
 const router = createBrowserRouter([
@@ -32,6 +35,10 @@ const router = createBrowserRouter([
         path: "/chart",
         element: <Chart/>,
     },
+    {
+        path: "/test",
+        element: <Testing/>,
+    },
 ]);
 
 const root = ReactDOM.createRoot(
@@ -39,7 +46,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <React.StrictMode>
-        <RouterProvider router={router}/>
+        <Provider store={store}>
+            <RouterProvider router={router}/>
+        </Provider>
     </React.StrictMode>
 );
 

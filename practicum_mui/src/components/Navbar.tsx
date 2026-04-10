@@ -49,6 +49,7 @@ function Navbar({active}: ComponentProps) {
         { id: '1', label: 'Главная', link: '/' },
         { id: '2', label: 'Список зданий', link: '/list' },
         { id: '3', label: 'Диаграммы', link:'/chart' },
+        { id: '4', label: 'Проверь себя', link:'/test' },
     ];
 
     return (
