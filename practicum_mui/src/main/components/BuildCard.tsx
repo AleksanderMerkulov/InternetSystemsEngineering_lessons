@@ -26,7 +26,11 @@ const StyledTypography = styled(Typography)(({theme})=>({
 
 function BuildCard({building, index} : ComponentProps) {
     return (
-      <Card sx={{display: 'flex', flexDirection: index % 2 === 0 ? 'row-reverse' : 'row',}}>
+      <Card sx={{display: 'flex', flexDirection: {
+          xs: 'column',
+          sm:index % 2 === 0 ? 'row-reverse' : 'row',
+          },
+                }}>
         <CardMedia
             component="img"
             alt={ building.title }

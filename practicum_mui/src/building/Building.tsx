@@ -15,7 +15,11 @@ import Footer from "../components/Footer";
 
 const StyledCardContent = styled(CardContent)(({theme}) => ({
     display: 'grid',
-    gridTemplateColumns: "repeat(2, 1fr)"
+    gridTemplateColumns: "1fr",
+
+    [theme.breakpoints.up('sm')]: {
+        gridTemplateColumns: "repeat(2, 1fr)",
+    },
 
 }))
 
