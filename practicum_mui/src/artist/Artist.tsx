@@ -28,7 +28,7 @@ const StyledBreadcrumbs = styled(Breadcrumbs)((theme) => ({
 }))
 
 
-function Building() {
+function Artist() {
     const {id} = useParams();
     const building = structures[Number(id)]
     return (
@@ -71,4 +71,4 @@ function Building() {
     );
 }
 
-export default Building
+export default Artist

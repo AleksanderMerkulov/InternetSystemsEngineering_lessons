@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {styled} from "@mui/material/styles";
 import Footer from "../../components/Footer";
+import {Link as RouterLink} from "react-router";
 
 interface ComponentProps {
     building: {
@@ -25,7 +26,7 @@ const StyledTypography = styled(Typography)(({theme}) => ({
 
 }))
 
-function BuildCard({building, index}: ComponentProps) {
+function ArtistCard({building, index}: ComponentProps) {
 
     return (
         <Card >
@@ -43,6 +44,12 @@ function BuildCard({building, index}: ComponentProps) {
                     component="img"
                     alt={building.title}
                     image={building.img}
+                    sx={{
+                        height: "100%",
+                        maxHeight: "300px",
+                        objectFit:'contain',
+                        maxWidth: "30%"
+                    }}
                 />
                 <CardContent>
                     <Box
@@ -65,7 +72,10 @@ function BuildCard({building, index}: ComponentProps) {
                         ))}
                     </Box>
                     <CardActions sx={{justifyContent: index % 2 === 0 ?'flex-end': 'flex-start'}}>
-                        <Button size="small">Подробнее</Button>
+                        <Button size="small"
+                                // component={RouterLink}
+                                // to={`/artist/${index}`}
+                        >Подробнее</Button>
                     </CardActions>
                 </CardContent>
             </Box>
@@ -73,4 +83,4 @@ function BuildCard({building, index}: ComponentProps) {
     )
 }
 
-export default BuildCard;
+export default ArtistCard;

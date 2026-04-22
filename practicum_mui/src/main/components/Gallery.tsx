@@ -31,7 +31,7 @@ function Gallery() {
                             cols={isMobile ? 1 : index % 5 === 0 ? 2 : 1}
                             rows={1}
                             component={RouterLink}
-                            to={`/building/${index}`}
+                            to={`/artist/${index}`}
                         >
                             <img srcSet={item.img} src={item.img} alt={item.title} loading="lazy"/>
                             <ImageListItemBar position="bottom" title={item.title}/>

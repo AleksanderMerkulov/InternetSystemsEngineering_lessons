@@ -13,7 +13,7 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router";
-import Building from "./building/Building";
+import Artist from "./artist/Artist";
 import {Provider} from "react-redux";
 import store from "./store";
 
@@ -28,8 +28,8 @@ const router = createBrowserRouter([
         element: <List/>,
     },
     {
-        path: "/building/:id",
-        element: <Building />,
+        path: "/artist/:id",
+        element: <Artist />,
     },
     {
         path: "/chart",
