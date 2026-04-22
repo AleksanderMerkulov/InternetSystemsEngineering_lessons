@@ -15,7 +15,7 @@ function Footer() {
     >
       <Container maxWidth="sm">
         <Typography variant="body1">
-          Здания мира © {new Date().getFullYear()}
+          Музыка © {new Date().getFullYear()}
         </Typography>
       </Container>
     </Box>

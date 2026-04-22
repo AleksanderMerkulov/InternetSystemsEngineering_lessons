@@ -12,7 +12,7 @@ import {Link as RouterLink} from "react-router";
 const StyledToolbar = styled(Toolbar)(({theme}) => ({
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     flexShrink: 0,
     borderRadius: `calc(${theme.shape.borderRadius}px + 8px)`,
     border: '1px solid',
@@ -47,9 +47,10 @@ function Navbar({active}: ComponentProps) {
 
     const menuItems = [
         { id: '1', label: 'Главная', link: '/' },
-        { id: '2', label: 'Список зданий', link: '/list' },
+        { id: '2', label: 'Список треков', link: '/list' },
         { id: '3', label: 'Диаграммы', link:'/chart' },
         { id: '4', label: 'Проверь себя', link:'/test' },
+        { id: '5', label: 'Редактировать', link:'/crud' },
     ];
 
     return (
@@ -57,16 +58,13 @@ function Navbar({active}: ComponentProps) {
             position="static"
             sx={{
                 boxShadow: 0,
-                bgcolor: 'transparent',
+                bgcolor: "#5a5a5a",
                 mt: '28px',
             }}
         >
             <Container maxWidth="xl">
                 <StyledToolbar>
-                    <Typography variant="h6" sx={{color: '#5d8aa8'}}>
-                        Самые высокие здания и сооружения
-                    </Typography>
-                    <Box sx={{display: {xs: 'none', md: 'flex'}}}>
+                    <Box sx={{display: {xs: 'none', md: 'flex'}, justifyContent:'center'}}>
 
 
                         {menuItems.map((item) => (
@@ -74,9 +72,12 @@ function Navbar({active}: ComponentProps) {
                             <Link to={item.link} component={RouterLink}>
                                 <Button
                                     key={item.id}
-                                    color="info"
+                                    color="success"
                                     size="medium"
                                     variant={active === item.id ? 'contained' : 'text'}
+                                    sx={{
+                                        color:"#fff"
+                                    }}
                                 >
                                     {item.label}
                                 </Button>

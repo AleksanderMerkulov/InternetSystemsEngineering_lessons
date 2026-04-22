@@ -1,7 +1,7 @@
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import structures from "../../data";
-import {Box, ImageListItemBar, Link} from "@mui/material";
+import {Box, ImageListItemBar, Link, useMediaQuery, useTheme} from "@mui/material";
 import Container from "@mui/material/Container";
 import {Link as RouterLink} from "react-router";
 import Footer from "../../components/Footer";
@@ -10,32 +10,30 @@ import Footer from "../../components/Footer";
 const imgData = structures.slice(0, -1);
 
 function Gallery() {
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
     return (
         <Container maxWidth="lg">
             <Box sx={{height: 585, overflowY: 'scroll', m: '20px auto'}}>
                 <ImageList
-                    variant="masonry"
-                    sx={{
-                        columnCount: {
-                            xs: '1 !important',
-                            sm: '2 !important',
-                            md: '3 !important',
-                            lg: '4 !important',
-                        },
-                    }}
-                    gap={8}>
+                    gap={8}
+                    variant="quilted"
+                    cols={isMobile ? 1 : 4}
+                    rowHeight={260}
+                >
                     {imgData.map((item, index) => (
-                        <Link to={'building/' + index} component={RouterLink}>
-                            <ImageListItem key={item.img}>
-                                <img
-                                    srcSet={item.img}
-                                    src={item.img}
-                                    alt={item.title}
-                                    loading="lazy"
-                                />
-                                <ImageListItemBar position="bottom" title={item.title}/>
-                            </ImageListItem>
-                        </Link>
+                        <ImageListItem
+                            key={item.img}
+                            cols={isMobile ? 1 : index % 5 === 0 ? 2 : 1}
+                            rows={1}
+                            component={RouterLink}
+                            to={`/building/${index}`}
+                        >
+                            <img srcSet={item.img} src={item.img} alt={item.title} loading="lazy"/>
+                            <ImageListItemBar position="bottom" title={item.title}/>
+                        </ImageListItem>
                     ))}
                 </ImageList>
             </Box>
