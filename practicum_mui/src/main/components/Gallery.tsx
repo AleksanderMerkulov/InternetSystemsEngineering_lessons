@@ -14,6 +14,8 @@ function Gallery() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+    const imgDataEdited = imgData.slice(0, 6)
+
     return (
         <Container maxWidth="lg">
             <Box sx={{height: 585, overflowY: 'scroll', m: '20px auto'}}>
@@ -23,7 +25,7 @@ function Gallery() {
                     cols={isMobile ? 1 : 4}
                     rowHeight={260}
                 >
-                    {imgData.map((item, index) => (
+                    {imgDataEdited.map((item, index) => (
                         <ImageListItem
                             key={item.img}
                             cols={isMobile ? 1 : index % 5 === 0 ? 2 : 1}

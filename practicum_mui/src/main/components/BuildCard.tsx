@@ -15,43 +15,61 @@ interface ComponentProps {
         description: string[],
     };
     index: number;
-  }
+}
 
-const StyledTypography = styled(Typography)(({theme})=>({
-    textAlign: 'justify',
+const StyledTypography = styled(Typography)(({theme}) => ({
+    textAlign: 'center',
     marginBottom: '10px',
+    padding: '10px 0px',
     textColor: theme.palette.text.secondary,
 
 }))
 
-function BuildCard({building, index} : ComponentProps) {
+function BuildCard({building, index}: ComponentProps) {
+
     return (
-      <Card sx={{display: 'flex', flexDirection: {
-          xs: 'column',
-          sm:index % 2 === 0 ? 'row-reverse' : 'row',
-          },
-                }}>
-        <CardMedia
-            component="img"
-            alt={ building.title }
-            image={ building.img }
-        />
-        <Box>
-          <CardContent>
-            <StyledTypography gutterBottom variant="h5" >
-              { building.title }
+        <Card >
+            <StyledTypography gutterBottom variant="h5">
+                {building.title}
             </StyledTypography>
-            { building.description.map((item, ind) => (
-              <StyledTypography key={ind} variant="body2">
-                { item }
-              </StyledTypography>
-            ))}
-          </CardContent>
-          <CardActions sx={{ justifyContent: 'end'}} >
-            <Button size="small">Подробнее</Button>
-          </CardActions>
-        </Box>
-      </Card>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: {
+                    xs: 'column',
+                    sm: index % 2 === 0 ? 'row-reverse' : 'row',
+                },
+            }}>
+                <CardMedia
+                    component="img"
+                    alt={building.title}
+                    image={building.img}
+                />
+                <CardContent>
+                    <Box
+                        sx={{
+                            columnCount: {xs: 1, md: 2},
+                            columnGap: '32px',
+                        }}
+                    >
+                        {building.description.map((item, ind) => (
+                            <StyledTypography
+                                key={ind}
+                                variant="body2"
+                                sx={{
+                                    breakInside: 'avoid',
+                                    mb: 2,
+                                }}
+                            >
+                                {item}
+                            </StyledTypography>
+                        ))}
+                    </Box>
+                    <CardActions sx={{justifyContent: index % 2 === 0 ?'flex-end': 'flex-start'}}>
+                        <Button size="small">Подробнее</Button>
+                    </CardActions>
+                </CardContent>
+            </Box>
+        </Card>
     )
 }
 
