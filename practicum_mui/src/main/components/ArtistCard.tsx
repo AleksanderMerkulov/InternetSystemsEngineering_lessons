@@ -16,6 +16,7 @@ interface ComponentProps {
         description: string[],
     };
     index: number;
+    realIndex: number;
 }
 
 const StyledTypography = styled(Typography)(({theme}) => ({
@@ -26,7 +27,7 @@ const StyledTypography = styled(Typography)(({theme}) => ({
 
 }))
 
-function ArtistCard({building, index}: ComponentProps) {
+function ArtistCard({building, index, realIndex}: ComponentProps) {
 
     return (
         <Card >
@@ -73,8 +74,8 @@ function ArtistCard({building, index}: ComponentProps) {
                     </Box>
                     <CardActions sx={{justifyContent: index % 2 === 0 ?'flex-end': 'flex-start'}}>
                         <Button size="small"
-                                // component={RouterLink}
-                                // to={`/artist/${index}`}
+                                component={RouterLink}
+                                to={`/artist/${realIndex}`}
                         >Подробнее</Button>
                     </CardActions>
                 </CardContent>
