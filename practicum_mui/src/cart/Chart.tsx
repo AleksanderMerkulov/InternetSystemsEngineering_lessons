@@ -1,6 +1,6 @@
 import GroupGrid from "./components/GroupGrid";
 import {countries, tGroup, types, years} from "./groupdata";
-import {Box, FormControl, InputLabel, LinearProgress, MenuItem, Select} from "@mui/material";
+import {Box, FormControl, InputLabel, LinearProgress, MenuItem, Select, Typography} from "@mui/material";
 import Container from "@mui/material/Container";
 import React, {useEffect} from "react";
 import Navbar from "../components/Navbar";
@@ -16,7 +16,7 @@ type TimeType = {
 
 function Chart() {
 
-    const [group, setGroup] = React.useState('countries')
+    const [group, setGroup] = React.useState('')
     const [loading, setLoading] = React.useState(true)
     const [data, setData] = React.useState<TimeType>([
         {
@@ -68,18 +68,25 @@ function Chart() {
                                 value={group}
                                 onChange={handleChange}
                                 variant={'outlined'}>
-                                <MenuItem value={'artist'}>Артистам</MenuItem>
+                                <MenuItem value={'artist'} selected>Артистам</MenuItem>
                                 <MenuItem value={'album'}>Альбомам</MenuItem>
                                 <MenuItem value={'genre'}>Типам</MenuItem>
                             </Select>
                         </Box>
                     </FormControl>
                 </Box>
-                {/*<pre>*/}
-                {/*    {JSON.stringify(data, null, 2)}*/}
-                {/*</pre>*/}
-                <GroupChart data={data}/>
-                <GroupGrid data={data}/>
+                {
+                    group === ''?
+                        <>
+                            <Typography variant="h4" component="h4" textAlign={'center'} sx={{paddingTop: '0.5em'}}>
+                                Выберите по кому группировать
+                            </Typography>
+                        </>:
+                        <>
+                            <GroupChart data={data}/>
+                            <GroupGrid data={data}/>
+                        </>
+                }
             </Container>
             <Footer/>
         </>
