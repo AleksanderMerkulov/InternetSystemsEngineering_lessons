@@ -3,7 +3,7 @@ import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
 import { ruRU } from '@mui/x-data-grid/locales';
 import Container from "@mui/material/Container";
 
-function BuildingsGrid() {
+function TimeGrid() {
   const rows: GridRowsProp = buildings;
   const columns: GridColDef[] = [
     { field: 'Название', headerName: 'Название'},
@@ -25,4 +25,4 @@ function BuildingsGrid() {
    </Container>
    );
 }
-export default BuildingsGrid;
+export default TimeGrid;
