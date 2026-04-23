@@ -1,12 +1,14 @@
 from flask import Flask
 from .extensions import db
 from .config import DevelopmentConfig
+from flask_cors import CORS
 # Импортируем маршруты
 from .routes import title, track, aggregate
 
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
     app.config.from_object(DevelopmentConfig)
     app.json.ensure_ascii = False
 
