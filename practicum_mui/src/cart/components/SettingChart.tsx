@@ -5,9 +5,10 @@ import Checkbox from '@mui/material/Checkbox';
 import {Divider, Radio, RadioGroup, Stack} from '@mui/material';
 
 type tSeries = {
-    'Максимальная высота': boolean,
-    'Средняя высота': boolean,
-    'Минимальная высота': boolean,
+    avg: true,
+    max: false,
+    min: false,
+    title: false,
 }
 type CheckboxProps = {
     series: tSeries;
@@ -70,27 +71,27 @@ function SettingChart({series, setSeries, isBar, setIsBar}: CheckboxProps) {
                 </FormLabel>
                 <FormControlLabel
                     control={
-                        <Checkbox checked={series["Максимальная высота"]}
-                                  name="Максимальная высота"
+                        <Checkbox checked={series["max"]}
+                                  name="max"
                                   onChange={handleChange}/>
                     }
-                    label="максимальную высоту"
+                    label="Наибольшая длительность"
                 />
                 <FormControlLabel
                     control={
-                        <Checkbox checked={series["Средняя высота"]}
-                                  name="Средняя высота"
+                        <Checkbox checked={series["avg"]}
+                                  name="avg"
                                   onChange={handleChange}/>
                     }
-                    label="среднюю высоту"
+                    label="Средняя"
                 />
                 <FormControlLabel
                     control={
-                        <Checkbox checked={series["Минимальная высота"]}
-                                  name="Минимальная высота"
+                        <Checkbox checked={series["min"]}
+                                  name="min"
                                   onChange={handleChange}/>
                     }
-                    label="минимальную высоту"
+                    label="Наименьшая"
                 />
             </FormControl>
         </Stack>

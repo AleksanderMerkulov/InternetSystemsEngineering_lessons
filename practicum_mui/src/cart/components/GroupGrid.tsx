@@ -4,18 +4,28 @@ import buildings from "../../list/table";
 import Container from "@mui/material/Container";
 import {ruRU} from "@mui/x-data-grid/locales";
 
-type GroupProps = {
-    data: tGroup;
-};
+type TimeType = {
+    "avg": number,
+    "max": number,
+    "min": number,
+    "title": string
+}
 
-function GroupGrid({data}: GroupProps) {
+// 2. Описываем структуру объекта data
+
+// 3. Указываем этот тип в пропсах
+interface propsInterface {
+    data: TimeType[];
+}
+
+
+function GroupGrid({data}: propsInterface) {
     const rows: GridRowsProp = data;
     const columns: GridColDef[] = [
-        {field: 'id', },
-        {field: 'Группа', headerName: 'Группа'},
-        {field: "Минимальная высота"},
-        {field: "Максимальная высота"},
-        {field: "Средняя высота",},
+        {field: 'title', headerName: 'Название'},
+        {field: 'min', headerName: 'Наименьшая длительность'},
+        {field: 'avg', headerName: 'Средняя длительность'},
+        {field: 'max', headerName: 'Наибольшая длительность'},
     ];
 
     return (
@@ -25,6 +35,7 @@ function GroupGrid({data}: GroupProps) {
                 localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
                 rows={rows}
                 columns={columns}
+                getRowId={(row) => row.title}
                 // showToolbar={true}
             />
         </Container>

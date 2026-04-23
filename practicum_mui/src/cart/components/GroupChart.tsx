@@ -10,9 +10,10 @@ type GroupProps = {
 };
 
 type tSeries = {
-    'Максимальная высота': boolean,
-    'Средняя высота': boolean,
-    'Минимальная высота': boolean,
+    avg: true,
+    max: false,
+    min: false,
+    title: false,
 }
 
 type CheckboxProps = {
@@ -22,14 +23,29 @@ type CheckboxProps = {
     >;
 };
 
-function GroupChart({data}: GroupProps) {
+type TimeType = {
+    "avg": number,
+    "max": number,
+    "min": number,
+    "title": string
+}
+
+// 2. Описываем структуру объекта data
+
+// 3. Указываем этот тип в пропсах
+interface propsInterface {
+    data: TimeType[];
+}
+
+function GroupChart({data}: propsInterface) {
 
     const [isBar, setIsBar] = React.useState(true);
 
-    const [series, setSeries] = React.useState({
-        'Максимальная высота': true,
-        'Средняя высота': false,
-        'Минимальная высота': false,
+    const [series, setSeries] = React.useState<tSeries>({
+        avg: true,
+        max: false,
+        min: false,
+        title: false,
     });
 
     const activeSeriesCount = Object.values(series).filter(Boolean).length;
@@ -43,7 +59,7 @@ function GroupChart({data}: GroupProps) {
         }));
 
     const chartSetting = {
-        yAxis: [{label: 'Высота (м)'}],
+        yAxis: [{label: 'Time'}],
         height: 400,
     }
 
@@ -51,8 +67,8 @@ function GroupChart({data}: GroupProps) {
         <Container maxWidth="lg">
 
             {!isBar?<LineChart
-                dataset={data}
-                xAxis={[{scaleType: 'band', dataKey: 'Группа'}]}
+                dataset={data.slice(0, 5)}
+                xAxis={[{scaleType: 'band', dataKey: 'title'}]}
                 series={seriesY}
                 slotProps={{
                     legend: {
@@ -63,8 +79,8 @@ function GroupChart({data}: GroupProps) {
             />:null}
 
             {isBar?<BarChart
-                dataset={data}
-                xAxis={[{scaleType: 'band', dataKey: 'Группа'}]}
+                dataset={data.slice(0, 5)}
+                xAxis={[{scaleType: 'band', dataKey: 'title'}]}
                 series={seriesY}
                 slotProps={{
                     legend: {

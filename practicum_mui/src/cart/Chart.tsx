@@ -18,7 +18,14 @@ function Chart() {
 
     const [group, setGroup] = React.useState('countries')
     const [loading, setLoading] = React.useState(true)
-    const [data, setData] = React.useState<TimeType>()
+    const [data, setData] = React.useState<TimeType>([
+        {
+            "avg": 0,
+            "max": 0,
+            "min": 0,
+            "title": ''
+        }
+    ])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -68,11 +75,11 @@ function Chart() {
                         </Box>
                     </FormControl>
                 </Box>
-                <pre>
-                    {JSON.stringify(data, null, 2)}
-                </pre>
-                {/*<GroupChart data={data}/>*/}
-                {/*<GroupGrid data={data}/>*/}
+                {/*<pre>*/}
+                {/*    {JSON.stringify(data, null, 2)}*/}
+                {/*</pre>*/}
+                <GroupChart data={data}/>
+                <GroupGrid data={data}/>
             </Container>
             <Footer/>
         </>
