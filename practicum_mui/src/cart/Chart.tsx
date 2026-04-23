@@ -1,33 +1,48 @@
 import GroupGrid from "./components/GroupGrid";
 import {countries, tGroup, types, years} from "./groupdata";
-import {Box, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {Box, FormControl, InputLabel, LinearProgress, MenuItem, Select} from "@mui/material";
 import Container from "@mui/material/Container";
-import React from "react";
+import React, {useEffect} from "react";
 import Navbar from "../components/Navbar";
 import GroupChart from "./components/GroupChart";
 import Footer from "../components/Footer";
 
+type TimeType = {
+    "avg": number,
+    "max": number,
+    "min": number,
+    "title": string
+}[]
+
 function Chart() {
 
     const [group, setGroup] = React.useState('countries')
-    const [data, setData] = React.useState<tGroup>(countries)
+    const [loading, setLoading] = React.useState(true)
+    const [data, setData] = React.useState<TimeType>()
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                // Подставляем group прямо в URL
+                const response = await fetch(`http://localhost:5000/api/v1/aggregate/${group}`);
+                const result = await response.json();
+
+                // Предполагаем, что API возвращает объект с полем tracks или данными напрямую
+                setData(result.data || result);
+            } catch (error) {
+                console.error("Ошибка загрузки:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [group]);
 
     const handleChange = (event: { target: { value: any; }; }) => {
         const name = event.target.value
         setGroup(name);
-        switch (name) {
-            case 'countries':
-                setData(countries)
-                break
-            case 'years':
-                setData(years)
-                break
-            case 'types':
-                setData(types)
-                break
-            default:
-                setData(countries)
-        }
     }
 
 
@@ -35,7 +50,7 @@ function Chart() {
         <>
             <Container maxWidth="lg">
                 <Navbar active={"3"}/>
-
+                {loading?<LinearProgress aria-label="Loading…" />:null}
                 <Box sx={{width: "200px", m: "auto", pt: '20px'}}>
                     <FormControl fullWidth>
                         <Box sx={{marginLeft: 'auto', marginRight: 'auto', width: 'fit-content'}}>
@@ -46,15 +61,18 @@ function Chart() {
                                 value={group}
                                 onChange={handleChange}
                                 variant={'outlined'}>
-                                <MenuItem value={'countries'}>Странам</MenuItem>
-                                <MenuItem value={'years'}>Годам</MenuItem>
-                                <MenuItem value={'types'}>Типу</MenuItem>
+                                <MenuItem value={'artist'}>Артистам</MenuItem>
+                                <MenuItem value={'album'}>Альбомам</MenuItem>
+                                <MenuItem value={'genre'}>Типам</MenuItem>
                             </Select>
                         </Box>
                     </FormControl>
                 </Box>
-                <GroupChart data={data}/>
-                <GroupGrid data={data}/>
+                <pre>
+                    {JSON.stringify(data, null, 2)}
+                </pre>
+                {/*<GroupChart data={data}/>*/}
+                {/*<GroupGrid data={data}/>*/}
             </Container>
             <Footer/>
         </>
