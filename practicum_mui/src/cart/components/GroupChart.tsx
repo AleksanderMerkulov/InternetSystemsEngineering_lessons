@@ -5,23 +5,12 @@ import React from "react";
 import SettingChart from "./SettingChart";
 import {LineChart} from "@mui/x-charts";
 
-type GroupProps = {
-    data: tGroup;
-};
-
 type tSeries = {
     avg: true,
     max: false,
     min: false,
     title: false,
 }
-
-type CheckboxProps = {
-    series: tSeries;
-    setSeries: React.Dispatch<
-        React.SetStateAction<tSeries>
-    >;
-};
 
 type TimeType = {
     "avg": number,
@@ -30,9 +19,6 @@ type TimeType = {
     "title": string
 }
 
-// 2. Описываем структуру объекта data
-
-// 3. Указываем этот тип в пропсах
 interface propsInterface {
     data: TimeType[];
 }
@@ -59,7 +45,7 @@ function GroupChart({data}: propsInterface) {
         }));
 
     const chartSetting = {
-        yAxis: [{label: 'Time'}],
+        yAxis: [{label: 'Время'}],
         height: 400,
     }
 
