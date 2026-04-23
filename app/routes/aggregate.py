@@ -12,7 +12,7 @@ def time_info_by_genre():
     print(results)
     return jsonify({
         "success": True,
-        "all_tracks": all_time_stats_schema.dump(results)
+        "data": all_time_stats_schema.dump(results)
     }), 200
 
 @aggregate_bp.route('/artist/', methods=['GET'])
@@ -21,7 +21,7 @@ def time_info_by_artist():
     print(results)
     return jsonify({
         "success": True,
-        "artists": all_time_stats_schema.dump(results)
+        "data": all_time_stats_schema.dump(results)
     }), 200
 
 
@@ -31,6 +31,6 @@ def time_info_by_album():
     print(results)
     return jsonify({
         "success": True,
-        "albums": all_time_stats_schema.dump(results)
+        "data": all_time_stats_schema.dump(results)
     }), 200
 
