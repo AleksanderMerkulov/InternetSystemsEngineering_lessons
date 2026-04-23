@@ -1,7 +1,8 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import TimeGrid from "./components/TimeGrid";
+import TrackGrid from "./components/TimeGrid";
 import {useEffect, useState} from "react";
+import {Typography} from "@mui/material";
 
 function List() {
 
@@ -32,7 +33,10 @@ function List() {
     return (
         <div>
             <Navbar active="2"/>
-            <TimeGrid data={data}/>
+            <Typography variant="h4" component="h4" textAlign={'center'} sx={{paddingTop:'0.5em'}}>
+                Таблица треков
+            </Typography>
+            <TrackGrid data={data}/>
             <Footer/>
         </div>
     );

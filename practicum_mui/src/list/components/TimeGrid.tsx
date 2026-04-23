@@ -24,25 +24,15 @@ interface propsInterface {
     data: DataShape;
 }
 
-function TimeGrid({ data }: propsInterface) {
+function TrackGrid({ data }: propsInterface) {
 
-    // const rows: GridRowsProp = buildings;
-    // const columns: GridColDef[] = [
-    //     {field: 'Название', headerName: 'Название'},
-    //     {field: 'Тип'},
-    //     {field: 'Страна'},
-    //     {field: 'Город',},
-    //     {field: 'Год'},
-    //     {field: 'Высота'},
-    // ];
     const rows: GridRowsProp = data['tracks'];
-    console.log(data['tracks'])
     const columns: GridColDef[] = [
-        {field: 'name', headerName: 'Название'},
-        {field: 'composer'},
-        {field: 'milliseconds'},
-        {field: 'bytes',},
-        {field: 'unit_price'},
+        {field: 'name', headerName: 'Название трека'},
+        {field: 'composer', headerName: 'Композитор'},
+        {field: 'milliseconds', headerName: 'Время (мс)'},
+        {field: 'bytes', headerName: 'Вес файла (в байтах)'},
+        {field: 'unit_price', headerName: 'Цена в $'},
     ];
 
   return (
@@ -56,4 +46,4 @@ function TimeGrid({ data }: propsInterface) {
    </Container>
    );
 }
-export default TimeGrid;
+export default TrackGrid;
