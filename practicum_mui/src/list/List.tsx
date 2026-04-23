@@ -5,7 +5,10 @@ import {useEffect, useState} from "react";
 
 function List() {
 
-    const [stats, setStats] = useState()
+    const [data, setData] = useState({
+        success: true,
+        tracks: []
+    })
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -15,7 +18,7 @@ function List() {
                 const json = await response.json();
 
                 // 3. Сохраняем полученные данные в state
-                setStats(json);
+                setData(json);
             } catch (error) {
                 console.error("Ошибка при загрузке:", error);
             } finally {
@@ -29,7 +32,7 @@ function List() {
     return (
         <div>
             <Navbar active="2"/>
-            <TimeGrid/>
+            <TimeGrid data={data}/>
             <Footer/>
         </div>
     );
