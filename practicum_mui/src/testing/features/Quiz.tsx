@@ -1,23 +1,59 @@
-import {Box, Button, Container, Link, Typography} from '@mui/material';
+import {Box, Button, Container, LinearProgress, Link, Typography} from '@mui/material';
 import {quiz, tTasks} from "../quizData";
 import Matching from "./Matching";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link as RouterLink} from "react-router";
 
+type tQuizzes = {
+    "id": number,
+    "type": "M" | "S", /* типы заданий, М - сопоставление*/
+    "title": string, /* формулировка задания */
+    "tasks": tTasks,
+}[];
 
 function Quiz() {
 
-    const answers = useSelector((state: RootState) => state.lists.lists);
+    const [quiz, setQuiz] = useState<tQuizzes>()
+    const [loading, setLoading] = useState(true)
 
-    const quizzes_answers = quiz.map(item => {
-        return item.tasks.map(task => task.answer)
-    })
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/v1/aggregate/test/');
+                const json = await response.json();
+
+                // 3. Сохраняем полученные данные в state
+                setQuiz(json.data);
+            } catch (error) {
+                console.error("Ошибка при загрузке:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
+    const answers = useSelector((state: RootState) => state.lists.lists);
 
     const [success, setSuccess] = useState([0, 0])
     const [isChecked, setIsChecked] = useState(false)
     const [restartKey, setRestartKey] = useState(0)
+
+    if (!Array.isArray(quiz)){
+        return (
+            <>
+                {/*<h1>Данные не были получены</h1>*/}
+            </>
+        )
+    }
+
+    const quizzes_answers = quiz.map(item => {
+        return item.tasks.map(task => task.answer)
+    })
 
     // const [isUpdate, setIsUpdate] = useState(false)
 
@@ -42,21 +78,19 @@ function Quiz() {
         setSuccess([0, 0])
     }
 
-    const Results = () => {
-        return (
-            <Box>
-                <Typography align={'center'}>
-                    Задание 1. {success[0] === 4 ? 'Все ответы верны' : `Верных ответов:${success[0]}`}
+    const Results = () => (
+        <Box sx={{mt: 2}}>
+            {success.map((count, i) => (
+                <Typography key={i} align={'center'}>
+                    Задание {i + 1}. Верно: {count} из {quiz[i].tasks.length}
                 </Typography>
-                <Typography align={'center'}>
-                    Задание 2. {success[1] === 4 ? 'Все ответы верны' : `Верных ответов:${success[1]}`}
-                </Typography>
-            </Box>
-        )
-    }
+            ))}
+        </Box>
+    );
 
     return (
         <Container maxWidth="md">
+            {loading?<LinearProgress aria-label="Loading…" />:null}
             {quiz.map((item, index) => (
                 <Box key={item.id} component="section" sx={{m: 2, p: 2}}>
                     <Typography variant="h5" gutterBottom>
@@ -64,7 +98,9 @@ function Quiz() {
                     </Typography>
                     <Matching tasks={item.tasks} index={index} key={`${item.id}-${restartKey}`}/>
                 </Box>
+
             ))}
+
             <Box sx={{display: 'flex', justifyContent: 'space-around'}}>
                 <Button variant="contained"
                         onClick={handleChange}
