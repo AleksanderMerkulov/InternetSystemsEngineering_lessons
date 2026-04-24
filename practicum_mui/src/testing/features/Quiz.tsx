@@ -6,7 +6,6 @@ import {RootState} from "../../store";
 import React, {useEffect, useState} from "react";
 import {Link as RouterLink} from "react-router";
 import {addList} from "./quizSlice";
-import TextAnswer from "../components/TextAnswer";
 
 type tQuizzes = {
     "id": number,
