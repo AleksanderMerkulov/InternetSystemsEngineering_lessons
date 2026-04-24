@@ -16,6 +16,7 @@ import {
 import Artist from "./artist/Artist";
 import {Provider} from "react-redux";
 import store from "./store";
+import TrackManager from "./crud/TrackManager";
 
 
 const router = createBrowserRouter([
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
     {
         path: "/test",
         element: <Testing/>,
+    },
+    {
+        path: "/edit",
+        element: <TrackManager/>,
     },
 ]);
 

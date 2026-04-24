@@ -50,7 +50,7 @@ function Navbar({active}: ComponentProps) {
         { id: '2', label: 'Список треков', link: '/list' },
         { id: '3', label: 'Диаграммы', link:'/chart' },
         { id: '4', label: 'Проверь себя', link:'/test' },
-        { id: '5', label: 'Редактировать', link:'/crud' },
+        { id: '5', label: 'Редактировать', link:'/edit' },
     ];
 
     return (
